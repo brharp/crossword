@@ -6,8 +6,11 @@
 #define MAX_WORD 500
 #define BLANK '_'
 
+#define DICT "/usr/share/dict/american-english"
+
 int main(int argc, char *argv[])
 {
+	FILE *dict;
 	char word[MAX_WORD];
 	char pat[MAX_WORD];
 	char scratch[MAX_WORD];
@@ -18,9 +21,15 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	dict = fopen(DICT, "r");
+	if (dict == NULL) {
+		fprintf(stderr, "File not found: %s\n", DICT);
+		exit(EXIT_FAILURE);
+	}
+
 	strcpy(pat, argv[1]);
 
-	while (fgets(word, MAX_WORD-1, stdin) != NULL)
+	while (fgets(word, MAX_WORD-1, dict) != NULL)
 	{
 		n = strlen(word);
 
